@@ -1,0 +1,13 @@
+/node_modules
+/docs
+/serverStorage
+*.png
+*.jpg
+*.pdf
+
+*.txt
+*.encrypted
+*.decrypted
+*lock.json
+/.idea
+.idea
