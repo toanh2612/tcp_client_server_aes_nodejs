@@ -60,6 +60,7 @@ class Aes {
      * @param   {number[]}   key - Cipher key as 16/24/32-byte array.
      * @returns {number[][]} Expanded key schedule as 2D byte-array (Nr+1 × Nb bytes).
      */
+
     static keyExpansion(key) {
         const Nb = 4;            // block size (in words): no of columns in state (fixed at 4 for AES)
         const Nk = key.length/4; // key length (in words): 4/6/8 for 128/192/256-bit keys
@@ -67,7 +68,6 @@ class Aes {
 
         const w = new Array(Nb*(Nr+1));
         let temp = new Array(4);
-ub
         // initialise first Nk words of expanded key with cipher key
         for (let i=0; i<Nk; i++) {
             const r = [ key[4*i], key[4*i+1], key[4*i+2], key[4*i+3] ];
@@ -175,6 +175,7 @@ ub
      *
      * @private
      */
+    
     static rotWord(w) {
         const tmp = w[0];
         for (let i=0; i<3; i++) w[i] = w[i+1];
