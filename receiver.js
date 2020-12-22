@@ -6,10 +6,15 @@ const utils = require('./utils');
 const { regex, handleArgv, generate } = utils;
 const path = require('path')
 const argv = handleArgv();
+<<<<<<< HEAD
 const outputFolderPath = argv['outputFolderPath'] || 'serverStorage';
 if (!fs.existsSync(outputFolderPath)){
   fs.mkdirSync(outputFolderPath);
 }
+=======
+const folderName = 'serverStorage';
+const _ = require('lodash');
+>>>>>>> d237f5e9b154b38699d7ab6cf06ef49d4a9eb9ba
 const server = net.createServer(function (c) {
   console.log('client connected');
     let receivedDataArray = [];
