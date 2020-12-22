@@ -6,6 +6,7 @@ const utils = require('./utils');
 const { regex, handleArgv, generate } = utils;
 const path = require('path')
 const argv = handleArgv();
+const _ = require('lodash');
 const outputFolderPath = argv['outputFolderPath'] || 'serverStorage';
 if (!fs.existsSync(outputFolderPath)){
   fs.mkdirSync(outputFolderPath);
