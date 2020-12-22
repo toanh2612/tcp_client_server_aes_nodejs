@@ -6,8 +6,10 @@ const utils = require('./utils');
 const { regex, handleArgv, generate } = utils;
 const path = require('path')
 const argv = handleArgv();
-const folderName = 'serverStorage';
-
+const outputFolderPath = argv['outputFolderPath'] || 'serverStorage';
+if (!fs.existsSync(outputFolderPath)){
+  fs.mkdirSync(outputFolderPath);
+}
 const server = net.createServer(function (c) {
   console.log('client connected');
     let receivedDataArray = [];
@@ -25,8 +27,8 @@ const server = net.createServer(function (c) {
     let bufferOriginal = Buffer.from(json.fileData.data);
     const decryptedFileName = path.basename(json.result['filePath'])+json.result['decryptExt'];
     const encryptedFileName = path.basename(json.result['outputFilePath']);
-    const encryptedFilePath = path.resolve(folderName,encryptedFileName);
-    const decryptedFilePath = path.resolve(folderName,decryptedFileName);
+    const encryptedFilePath = path.resolve(outputFolderPath,encryptedFileName);
+    const decryptedFilePath = path.resolve(outputFolderPath,decryptedFileName);
 
     // console.log({encryptedFilePath, decryptedFilePath});
     fs.writeFileSync(encryptedFilePath, bufferOriginal);
