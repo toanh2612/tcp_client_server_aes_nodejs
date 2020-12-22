@@ -20,27 +20,32 @@ const server = net.createServer(function (c) {
     console.log('client disconnected');
 
     const buffer = Buffer.concat(receivedDataArray);
-    const bufferToString = buffer.toString('utf8');
+    const bufferToString = buffer.toString('utf-8');
     const json = JSON.parse(bufferToString);
     let bufferOriginal = Buffer.from(json.fileData.data);
     const decryptedFileName = path.basename(json.result['filePath'])+json.result['decryptExt'];
     const encryptedFileName = path.basename(json.result['outputFilePath']);
-    const encryptedFilePath = path.resolve('folderName',encryptedFileName);
-    const decryptedFilePath = path.resolve('folderName',decryptedFileName);
+    const encryptedFilePath = path.resolve(folderName,encryptedFileName);
+    const decryptedFilePath = path.resolve(folderName,decryptedFileName);
 
     // console.log({encryptedFilePath, decryptedFilePath});
     fs.writeFileSync(encryptedFilePath, bufferOriginal);
     const options = {
         filePath: encryptedFilePath,
         outputFilePath: decryptedFilePath,
-        bits: Number(json.result['bits']),
+        bits: Number(argv['bits']),
         password: argv['password'],
         op: 'decrypt'
     };
+    try {
+      const senderData = new Cryptor(options);
+      const result = await senderData.decrypt();
+      console.log({decryptedResult:{..._.pick(result,['op','password', 'bits','outputFilePath','raw'])}});
+    } catch(error){
+      console.log({error});
+    }
 
-    const senderData = new Cryptor(options);
-    const result = await senderData.decrypt();
-    console.log(result);
+
   });
   c.pipe(c);
 });

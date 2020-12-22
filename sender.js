@@ -8,16 +8,24 @@ const argv = handleArgv();
 let sender = new net.Socket();
 
 sender.connect(Number(argv['port']), argv['host'], async function () {
-    const senderData = new Cryptor({..._.pick(argv,['filePath','outputFilePath','password','bits','op'])});
-    const result = await senderData.encrypt();
+    try {
+        const senderData = new Cryptor({..._.pick(argv,['filePath','outputFilePath','password','bits','op'])});
 
-    let fileData = fs.readFileSync(result['outputFilePath']);
-    let package = {
-        result,
-        fileData
+        const result = await senderData.encrypt();
+        console.log({
+            encryptedResult: result
+        });
+        let fileData = fs.readFileSync(result['outputFilePath']);
+        let package = {
+            result,
+            fileData
+        }
+        package = JSON.stringify(package);
+        sender.write(package);
+    } catch(error) {
+        console.log({error})
     }
-    package = JSON.stringify(package);
-    sender.write(package);
+    
 
 });
 
