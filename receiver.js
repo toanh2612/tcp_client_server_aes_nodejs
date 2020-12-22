@@ -7,7 +7,7 @@ const { regex, handleArgv, generate } = utils;
 const path = require('path')
 const argv = handleArgv();
 const folderName = 'serverStorage';
-
+const _ = require('lodash');
 const server = net.createServer(function (c) {
   console.log('client connected');
     let receivedDataArray = [];
